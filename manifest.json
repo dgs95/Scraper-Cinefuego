@@ -1,10 +1,9 @@
 {
-  "id": "com.dgs95.cinefuego",
   "name": "Scraper Cinefuego",
   "version": "1.0.0",
   "description": "Repositorio personal para Nuvio",
   "author": "David Gonzalez Segura",
-  "providers": [
+  "scrapers": [
     {
       "id": "fuegocine",
       "name": "FuegoCine",
