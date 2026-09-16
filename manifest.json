@@ -1,0 +1,7 @@
+{
+  "id": "fuegocine",
+  "name": "FuegoCine",
+  "filename": "providers/fuegocine.js",
+  "supportedTypes": ["movie", "tv"],
+  "enabled": true
+}
