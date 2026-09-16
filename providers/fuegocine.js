@@ -1,10 +1,11 @@
+const cheerio = require('cheerio-without-node-native');
+
 const PROVIDER_NAME = "FuegoCine";
 const BASE_URL = "https://www.fuegocine.com";
 
 function getStreams(tmdbId, mediaType, season, episode) {
     console.log(`[${PROVIDER_NAME}] Iniciando búsqueda para ${mediaType} TMDB: ${tmdbId}`);
 
-    // 1. Traducir tmdbId al título real usando Cinemeta
     const metaType = mediaType === 'tv' ? 'series' : 'movie';
     const metaUrl = `https://v3-cinemeta.strem.io/meta/${metaType}/tmdb:${tmdbId}.json`;
 
@@ -19,21 +20,75 @@ function getStreams(tmdbId, mediaType, season, episode) {
             const searchQuery = encodeURIComponent(title);
             const searchUrl = `${BASE_URL}/?s=${searchQuery}`;
             
-            console.log(`[${PROVIDER_NAME}] Buscando en FuegoCine: ${title}`);
+            console.log(`[${PROVIDER_NAME}] Buscando: ${title}`);
             return fetch(searchUrl);
         })
         .then(res => res.text())
         .then(html => {
-            // 2. Extraer la URL del resultado de búsqueda
-            // Buscar el primer enlace que coincida con un post de FuegoCine
-            const linkMatch = html.match(/<a[^>]+href="(https?:\/\/(?:www\.)?fuegocine\.com\/[^"]+)"/i);
+            // Cargar el HTML en cheerio
+            const $ = cheerio.load(html);
             
-            if (!linkMatch) {
+            // Extraer el href del primer enlace que coincida
+            const resultLink = $('a[href*="fuegocine.com/"]').first().attr('href');
+            
+            if (!resultLink) {
                 throw new Error("Sin resultados en FuegoCine");
             }
             
-            let mediaUrl = linkMatch[1];
+            let mediaUrl = resultLink;
+            if (mediaType === 'tv' && season && episode) {
+                mediaUrl = mediaUrl.replace('/series/', '/episodios/') + `-${season}x${episode}/`;
+            }
+
+            console.log(`[${PROVIDER_NAME}] Procesando enlace: ${mediaUrl}`);
+            return fetch(mediaUrl);
+        })
+        .then(res => res.text())
+        .then(html => {
+            const streams = [];
+            const $ = cheerio.load(html);
             
+            // 1. Extraer iframes embebidos usando selectores de Cheerio
+            $('iframe').each((index, element) => {
+                const src = $(element).attr('src');
+                if (src && !src.includes('youtube.com')) {
+                    streams.push({
+                        name: PROVIDER_NAME,
+                        title: "Servidor Externo Embebido",
+                        url: src,
+                        quality: "Desconocida"
+                    });
+                }
+            });
+
+            // 2. Extraer .m3u8 directos 
+            // Como las listas m3u8 suelen estar inyectadas en variables de JS, 
+            // Cheerio extrae el texto y aplicamos la regex sobre el código.
+            const scriptContent = $('script').text() + $('body').html();
+            const m3u8Regex = /(https?:\/\/[^"'\s]+\.m3u8)/g;
+            let m3u8Match;
+            
+            while ((m3u8Match = m3u8Regex.exec(scriptContent)) !== null) {
+                // Validar que no se dupliquen las URLs extraídas
+                if (!streams.some(s => s.url === m3u8Match[1])) {
+                    streams.push({
+                        name: PROVIDER_NAME,
+                        title: "Directo HLS (Nativo)",
+                        url: m3u8Match[1],
+                        quality: "Auto"
+                    });
+                }
+            }
+
+            return streams;
+        })
+        .catch(error => {
+            console.error(`[${PROVIDER_NAME}] Error de extracción:`, error.message);
+            return [];
+        });
+}
+
+module.exports = { getStreams };
             // Lógica básica de ruteo para episodios de series
             if (mediaType === 'tv' && season && episode) {
                 // Ajusta este reemplazo según la estructura exacta de FuegoCine
