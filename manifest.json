@@ -1,25 +1,34 @@
 {
-  "id": "fuegocine",
-  "name": "FuegoCine",
-  "description": "Scraper local para películas y series",
+  "id": "com.dgs95.cinefuego",
+  "name": "Scraper Cinefuego",
   "version": "1.0.0",
+  "description": "Repositorio personal para Nuvio",
   "author": "David Gonzalez Segura",
-  "supportedTypes": [
-    "movie",
-    "tv"
-  ],
-  "filename": "providers/fuegocine.js",
-  "enabled": true,
-  "logo": "",
-  "contentLanguage": [
-    "es"
-  ],
-  "formats": [
-    "mp4",
-    "mkv",
-    "m3u8"
-  ],
-  "limited": false,
-  "disabledPlatforms": [],
-  "supportsExternalPlayer": true
+  "providers": [
+    {
+      "id": "fuegocine",
+      "name": "FuegoCine",
+      "description": "Scraper local para películas y series",
+      "version": "1.0.0",
+      "author": "David Gonzalez Segura",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/fuegocine.js",
+      "enabled": true,
+      "logo": "",
+      "contentLanguage": [
+        "es"
+      ],
+      "formats": [
+        "mp4",
+        "mkv",
+        "m3u8"
+      ],
+      "limited": false,
+      "disabledPlatforms": [],
+      "supportsExternalPlayer": true
+    }
+  ]
 }
