@@ -1,16 +1,27 @@
-{
-  "name": "Mis Plugins",
-  "id": "mis.plugins.locales",
-  "version": "1.0.0",
-  "description": "Repositorio local de scrapers para Nuvio",
-  "providers": [
-    {
-      "id": "fuegocine",
-      "name": "FuegoCine",
-      "version": "1.0.0",
-      "filename": "https://raw.githubusercontent.com/dgs95/Scraper-Cinefuego/refs/heads/main/Providers/fuegocine.js",
-      "supportedTypes": ["movie", "tv"],
-      "enabled": true
-    }
-  ]
-}
+[
+  {
+    "id": "fuegocine",
+    "name": "FuegoCine",
+    "description": "Scraper local para películas y series",
+    "version": "1.0.0",
+    "author": "David Gonzalez Segura",
+    "supportedTypes": [
+      "movie",
+      "tv"
+    ],
+    "filename": "providers/fuegocine.js",
+    "enabled": true,
+    "logo": "",
+    "contentLanguage": [
+      "es"
+    ],
+    "formats": [
+      "mp4",
+      "mkv",
+      "m3u8"
+    ],
+    "limited": false,
+    "disabledPlatforms": [],
+    "supportsExternalPlayer": true
+  }
+]
