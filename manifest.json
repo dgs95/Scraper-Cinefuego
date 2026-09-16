@@ -2,7 +2,6 @@
   "name": "Scraper Cinefuego",
   "version": "1.0.0",
   "description": "Repositorio personal para Nuvio",
-  "author": "David Gonzalez Segura",
   "scrapers": [
     {
       "id": "fuegocine",
