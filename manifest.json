@@ -8,7 +8,7 @@
       "id": "fuegocine",
       "name": "FuegoCine",
       "version": "1.0.0",
-      "filename": "providers/fuegocine.js",
+      "filename": "https://raw.githubusercontent.com/dgs95/Scraper-Cinefuego/refs/heads/main/Providers/fuegocine.js",
       "supportedTypes": ["movie", "tv"],
       "enabled": true
     }
