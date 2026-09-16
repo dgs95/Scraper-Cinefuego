@@ -1,10 +1,16 @@
-[
-  {
-    "id": "fuegocine",
-    "name": "FuegoCine",
-    "version": "1.0.0",
-    "filename": "providers/fuegocine.js",
-    "supportedTypes": ["movie", "tv"],
-    "enabled": true
-  }
-]
+{
+  "name": "Mis Plugins",
+  "id": "mis.plugins.locales",
+  "version": "1.0.0",
+  "description": "Repositorio local de scrapers para Nuvio",
+  "providers": [
+    {
+      "id": "fuegocine",
+      "name": "FuegoCine",
+      "version": "1.0.0",
+      "filename": "providers/fuegocine.js",
+      "supportedTypes": ["movie", "tv"],
+      "enabled": true
+    }
+  ]
+}
